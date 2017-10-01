@@ -12,20 +12,18 @@ var centerY = 300 + pic_width;
 var curRad = 0;
 var cumulate = 0;
 
-var damping_coefficient = 2;
-var mouse_end_speed = 0;
-var mouse_cur_speed = 0;
+var damping_coefficient = 100;
 
-var intervalID=self.setInterval("intervalTask()", 200)
+var intervalID=self.setInterval("intervalTask()", damping_coefficient)
 
 function intervalTask() {
-    //document.getElementById("speed").innerHTML=speed;
-    document.getElementById("x").innerHTML=preX + " : " + curX;
-    document.getElementById("y").innerHTML=preY + " : " + curY;
-    document.getElementById("rad").innerHTML=curRad;
     if(typeof preTime != "undefined") {
         update_speed(preX, preY, preTime, curX, curY, curTime);
     }
+    if (intervalID) {
+        intervalID=window.clearInterval(intervalID)
+    }
+    intervalID=window.setInterval("intervalTask()", damping_coefficient);
 
     preX = curX;
     preY = curY;
@@ -35,15 +33,22 @@ function intervalTask() {
 function start() {
     document.addEventListener('mousemove', showMousePosition, false);
     var spinX = parseInt(document.getElementById("spinX").value);
-    var spinY = parseInt(document.getElementById("spinY").value)
+    var spinY = parseInt(document.getElementById("spinY").value);
+    var dampC = parseInt(document.getElementById("dampC").value);
     width = screen.availWidth;
     height = screen.availHeight;
     if (spinX <=0 || spinX >= width)  spinX = width / 2;
     if (spinY <=0 || spinY >= height) spinY = height / 2;
+    if (dampC < 1 ) dampC = 1;
+    if (dampC > 10) dampC = 10;
+    document.getElementById("spinX").value = spinX;
+    document.getElementById("spinY").value = spinY;
+    document.getElementById("dampC").value = dampC;
 
     document.getElementById("spinCenter").style.left = spinX + 'px';
     document.getElementById("spinCenter").style.top = spinY + 'px';
     
+    damping_coefficient = dampC * 20;
     centerX = spinX + pic_width;
     centerY = spinY + pic_width;
 
@@ -69,7 +74,7 @@ function showMousePosition(event) {
     //     preTime = curTime;
     //     return;
     // }
-    //calc_speed(curX, curY, curTime - preTime);
+    // calc_speed(preX, preY, preTime, curX, curY, curTime);
 }
 
 // calculate speed and update cumulate
@@ -77,8 +82,7 @@ function showMousePosition(event) {
 // pre(x, y, t), cur(x, y, t)
 function update_speed(x1, y1, t1, x2, y2, t2) {
     var rad = - deltaRad(x1, y1, x2, y2);
-    deltaTime = t2 - t1;
-    if (Math.abs(rad) < 0.000001) return;
+    deltaTime = t2 - t1 + 1;
 
     var speed = rad / deltaTime;
     curRad = curRad + rad;
@@ -88,11 +92,12 @@ function update_speed(x1, y1, t1, x2, y2, t2) {
     // clockwise only
     if (curRad > cumulate) {
         cumulate = curRad;
-        mouse_end_speed = speed;
-        document.getElementById("speed").innerHTML=speed;
-        document.getElementById("cumulate").innerHTML=cumulate / 2 / Math.PI;   // Rads to Circles
+        document.getElementById("cumulate").innerHTML=(cumulate / 2 / Math.PI).toFixed(6);   // Rads to Circles
+    } else {
+        speed = 0;
     }    
-
+    document.getElementById("speed").innerHTML=speed.toFixed(6);
+    
 }
 // pre_position(x1, y1)
 // cur_position(x2, y2)

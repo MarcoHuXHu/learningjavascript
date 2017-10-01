@@ -8,11 +8,14 @@
 <body>
         <p>
                 Spin Center: X: <input id="spinX"; type="number" value="300"/>
-                ,Y: <input id="spinY"; type="number" value="300"/>
+                             Y: <input id="spinY"; type="number" value="300"/>
         </p>
-        <p id="x">0</p>
+        <p>
+                Damping Coefficient: <input id="dampC"; type="number" value="5" max="10" min="1"/>
+        </p>
+        <!-- <p id="x">0</p>
         <p id="y">0</p>
-        <p>Rad:           <span id="rad">0</span></p>
+        <p>Rad:           <span id="rad">0</span></p> -->
         <p>SPEED:          <span id="speed">0</span></p>
         <p></p>CUMULATE:       <span id="cumulate">0</span></p>
         <div id="spinCenter" style="width: 40px; height: 40px; position: fixed; background-color: #22E21B; left: 300px; top: 300px; border-radius: 20px;"></div>
