@@ -2,18 +2,28 @@ var preX = 0;
 var preY = 0;
 var preTime = undefined;
 
-let centerX = 100;
-let centerY = 200;
+let pic_width  = 20;
+var centerX = 300 + pic_width; 
+var centerY = 300 + pic_width; 
 
 var curRad = 0;
 var cumulate = 0;
 
 
 function start() {
-    draw();
-    //document.addEventListener('mousemove', showMousePosition, false);
-    //a = [-84, -225, 117, -40]
-    //alert(a + ' : ' + deltaRad(a[0], a[1], a[2], a[3]));
+    document.addEventListener('mousemove', showMousePosition, false);
+    var spinX = parseInt(document.getElementById("spinX").value);
+    var spinY = parseInt(document.getElementById("spinY").value)
+    width = screen.availWidth;
+    height = screen.availHeight;
+    if (spinX <=0 || spinX >= width)  spinX = width / 2;
+    if (spinY <=0 || spinY >= height) spinY = height / 2;
+
+    document.getElementById("spinCenter").style.left = spinX + 'px';
+    document.getElementById("spinCenter").style.top = spinY + 'px';
+    
+    centerX = spinX + pic_width;
+    centerY = spinY + pic_width;
     preX = 0;
     preY = 0;
     preTime = undefined;
@@ -24,8 +34,8 @@ function start() {
 // using callback to get the position of mouse and update speed and cumulate
 function showMousePosition(event) {   
     // y-axle is reversed compare to normal x-y coordinate
-    var x = event.screenX - centerX;
-    var y = centerY - event.screenY;
+    var x = event.clientX - centerX;
+    var y = centerY - event.clientY;
     var time = Date.now();
     
     // for first time move mouse

@@ -2,33 +2,21 @@
 <html>
 
 <head>
-        <style>
-                div#spinctr {
-                        width: 40px;
-                        height: 40px;
-                        background-color: #1ba1e2;
-                        position: fixed;
-                        left: 100px;
-                        top: 100px;
-                        margin-left: -20px;
-                        margin-top: -20px;
-                        border-radius: 20px;
-                        z-index: 100;
-                        opacity: 0.75;
-                }
-        </style>
+        <script src="spincontrol.js"></script>        
 </head>
         
 <body>
-
+        <p>
+                Spin Center: X: <input id="spinX"; type="number" value="300"/>
+                ,Y: <input id="spinY"; type="number" value="300"/>
+        </p>
         <p id="x">0</p>
         <p id="y">0</p>
-        Rad:           <p id="rad">0</p>
-        SPEED:          <p id="speed">0</p>
-        CUMULATE:       <p id="cumulate">0</p>
-        <div id="spinctr"></div>
+        <p>Rad:           <span id="rad">0</span></p>
+        <p>SPEED:          <span id="speed">0</span></p>
+        <p></p>CUMULATE:       <span id="cumulate">0</span></p>
+        <div id="spinCenter" style="width: 40px; height: 40px; position: fixed; background-color: #22E21B; left: 300px; top: 300px; border-radius: 20px;"></div>
 
-        <script src="spincontrol.js"></script>
         <button type="button" onclick="start()">Start</button>
 </body>
 </html>
